@@ -4,10 +4,10 @@ import "swiper/scss";
 import MovieCard from "./MovieCard";
 import useSWR from "swr";
 import { fetcher } from "../../config/config";
-const MovieList = () => {
+const MovieList = ({ type = "now_playing" }) => {
   const [movies, setMovies] = useState([]);
   const { data, error, isLoading } = useSWR(
-    "https://api.themoviedb.org/3/movie/now_playing?api_key=3a1ebbff5245f9385c899a7026da8edc",
+    `https://api.themoviedb.org/3/movie/${type}?api_key=3a1ebbff5245f9385c899a7026da8edc`,
     fetcher
   );
   useEffect(() => {
@@ -15,9 +15,9 @@ const MovieList = () => {
       setMovies(data.results);
     }
   }, [data]);
-  console.log(data);
+
   return (
-    <div className="movie-list">
+    <div className="movie-list text-white">
       <Swiper grabCursor={"true"} spaceBetween={40} slidesPerView={"auto"}>
         {movies.length > 0 &&
           movies.map((item) => (
